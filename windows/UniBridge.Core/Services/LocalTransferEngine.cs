@@ -13,11 +13,16 @@ public sealed class LocalTransferEngine
     private const long Fat32MaxFileBytes = 4_294_967_295;
     private readonly int _chunkSize;
     private readonly bool _allowSameVolumeMoveShortcut;
+    private readonly int _progressIntervalMs;
 
-    public LocalTransferEngine(int chunkSize = 1_048_576, bool allowSameVolumeMoveShortcut = true)
+    public LocalTransferEngine(
+        int chunkSize = 1_048_576,
+        bool allowSameVolumeMoveShortcut = true,
+        int progressIntervalMs = 80)
     {
         _chunkSize = Math.Max(65_536, chunkSize);
         _allowSameVolumeMoveShortcut = allowSameVolumeMoveShortcut;
+        _progressIntervalMs = Math.Max(0, progressIntervalMs);
     }
 
     public async Task<(int filesCompleted, int filesSkipped)> ExecuteAsync(
@@ -171,7 +176,7 @@ public sealed class LocalTransferEngine
                         var instant = chunkBytes / seconds;
                         emaSpeed = emaSpeed == 0 ? instant : (0.25 * instant + 0.75 * emaSpeed);
                     }
-                    if (lastEmit.ElapsedMilliseconds >= 80)
+                    if (_progressIntervalMs == 0 || lastEmit.ElapsedMilliseconds >= _progressIntervalMs)
                     {
                         lastEmit.Restart();
                         await onProgress(MakeSnapshot(plan.TotalBytes, bytesTransferred, plan.Files.Count, filesCompleted, filesSkipped, file.Name, emaSpeed)).ConfigureAwait(false);

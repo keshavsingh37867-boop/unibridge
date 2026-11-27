@@ -170,7 +170,7 @@ public sealed class UniBridgeCoreTests : IDisposable
         Assert.Equal(1, c1);
         Assert.Equal(0, s1);
         Assert.Equal("ORIGINAL", await File.ReadAllTextAsync(dstFile));
-        Assert.Equal("UPDATED", await File.ReadAllTextAsync(Path.Combine(_dstDir, "doc 1.txt")));
+        Assert.Equal("UPDATED", await File.ReadAllTextAsync(Path.Combine(_dstDir, "doc (2).txt")));
 
         var (c2, _) = await engine.ExecuteAsync(
             [srcFile],
@@ -213,7 +213,7 @@ public sealed class UniBridgeCoreTests : IDisposable
         var bigFile = Path.Combine(_srcDir, "large.bin");
         await File.WriteAllBytesAsync(bigFile, MakeDeterministicBytes(2_500_000, 42));
 
-        var engine = new LocalTransferEngine(chunkSize: 65_536);
+        var engine = new LocalTransferEngine(chunkSize: 65_536, progressIntervalMs: 0);
         var control = new TransferControl();
 
         await Assert.ThrowsAnyAsync<OperationCanceledException>(() =>
@@ -244,7 +244,7 @@ public sealed class UniBridgeCoreTests : IDisposable
         var file = Path.Combine(_srcDir, "pausable.bin");
         await File.WriteAllBytesAsync(file, MakeDeterministicBytes(500_000, 5));
 
-        var engine = new LocalTransferEngine(chunkSize: 65_536);
+        var engine = new LocalTransferEngine(chunkSize: 65_536, progressIntervalMs: 0);
         var control = new TransferControl();
         bool pausedOnce = false;
 
@@ -299,7 +299,7 @@ public sealed class UniBridgeCoreTests : IDisposable
         Assert.False(File.Exists(Path.Combine(_srcDir, "alpha.txt")));
 
         var unique = FileBrowserService.UniqueDestinationPath(renamed, isDirectory: false);
-        Assert.Equal(Path.Combine(_srcDir, "beta 1.txt"), unique);
+        Assert.Equal(Path.Combine(_srcDir, "beta (2).txt"), unique);
 
         Assert.True(FileBrowserService.IsValidFileName("normal_file.pdf"));
         Assert.False(FileBrowserService.IsValidFileName("   "));
