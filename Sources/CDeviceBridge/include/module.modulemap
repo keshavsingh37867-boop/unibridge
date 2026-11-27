@@ -1,0 +1,4 @@
+module CDeviceBridge {
+    header "DeviceBridge.h"
+    export *
+}
