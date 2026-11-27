@@ -29,7 +29,7 @@ public sealed class WindowsMTPService
         IEnumerable<MediaDevice> devices;
         try
         {
-            devices = MediaDevice.GetDevices();
+            devices = MediaDeviceManager.Instance.GetDevices();
         }
         catch
         {
@@ -324,7 +324,7 @@ public sealed class WindowsMTPService
 
     private static MediaDevice ConnectDevice(string deviceId)
     {
-        var dev = MediaDevice.GetDevices().FirstOrDefault(d => string.Equals(d.DeviceId, deviceId, StringComparison.OrdinalIgnoreCase))
+        var dev = MediaDeviceManager.Instance.GetDevices().FirstOrDefault(d => string.Equals(d.DeviceId, deviceId, StringComparison.OrdinalIgnoreCase))
                   ?? throw new IOException("MTP device disconnected or is no longer available.");
         dev.Connect();
         return dev;

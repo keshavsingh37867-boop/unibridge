@@ -416,7 +416,7 @@ public sealed class WindowsIOSService
                         }
                     }
 
-                    afcApi.afc_client_new_from_house_arrest_client(houseArrest, out AfcClientHandle afc).ThrowOnError();
+                    houseApi.afc_client_new_from_house_arrest_client(houseArrest, out AfcClientHandle afc).ThrowOnError();
                     return new AfcSessionScope(dev, houseArrest, afc);
                 }
             }
@@ -507,9 +507,9 @@ public sealed class WindowsIOSService
                             var sharingNode = plist.plist_dict_get_item(app, "UIFileSharingEnabled");
                             if (sharingNode is null || sharingNode.IsInvalid) continue;
 
-                            byte isShared = 0;
+                            char isShared = '\0';
                             plist.plist_get_bool_val(sharingNode, ref isShared);
-                            if (isShared == 0) continue;
+                            if (isShared == '\0') continue;
 
                             var bidNode = plist.plist_dict_get_item(app, "CFBundleIdentifier");
                             if (bidNode is null || bidNode.IsInvalid) continue;
