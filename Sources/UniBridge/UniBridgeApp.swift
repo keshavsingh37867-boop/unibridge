@@ -13,12 +13,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 }
 
 @main
-struct PendriveTransferApp: App {
+struct UniBridgeApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
     @StateObject private var appState = AppState()
 
     var body: some Scene {
-        WindowGroup("Pendrive Transfer") {
+        WindowGroup("UniBridge") {
             ContentView(state: appState)
         }
         .defaultSize(width: 1220, height: 760)

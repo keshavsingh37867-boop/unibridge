@@ -202,7 +202,7 @@ public final class UnifiedTransferService: Sendable {
         }
 
         let stagingRoot = FileManager.default.temporaryDirectory
-            .appendingPathComponent("PendriveTransferStage-\(UUID().uuidString)", isDirectory: true)
+            .appendingPathComponent("UniBridgeStage-\(UUID().uuidString)", isDirectory: true)
         try? FileManager.default.createDirectory(at: stagingRoot, withIntermediateDirectories: true)
         defer { try? FileManager.default.removeItem(at: stagingRoot) }
 
@@ -572,7 +572,7 @@ public final class UnifiedTransferService: Sendable {
         } else if let destDirURL = destFolder.localURL {
             // Remote -> Local directly into a .part staging file in destination directory!
             let finalURL = destDirURL.appendingPathComponent(targetName)
-            let partURL = destDirURL.appendingPathComponent(".pendrivetransfer.\(UUID().uuidString).part")
+            let partURL = destDirURL.appendingPathComponent(".unibridge.\(UUID().uuidString).part")
             do {
                 try await downloadRemoteFile(file: file, toLocalURL: partURL, control: control, onFileProgress: onFileProgress)
                 if FileManager.default.fileExists(atPath: finalURL.path) {

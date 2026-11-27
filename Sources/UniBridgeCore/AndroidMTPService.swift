@@ -38,7 +38,7 @@ private func mtpCProgressCallback(transferred: UInt64, total: UInt64, context: U
 
 /// Thread-safe, persistent-session Android MTP manager backed by `libmtp`.
 public final class AndroidMTPService: @unchecked Sendable {
-    private let queue = DispatchQueue(label: "com.keshav.PendriveTransfer.mtp", qos: .userInitiated)
+    private let queue = DispatchQueue(label: "com.keshav.UniBridge.mtp", qos: .userInitiated)
     private var openHandles: [String: UnsafeMutableRawPointer] = [:]
     private var openFriendlyNames: [String: String] = [:]
     public var isTransferring: Bool {

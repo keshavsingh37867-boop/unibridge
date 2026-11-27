@@ -2,18 +2,18 @@
 import PackageDescription
 
 let package = Package(
-    name: "PendriveTransfer",
+    name: "UniBridge",
     platforms: [
         .macOS(.v14)
     ],
     products: [
         .library(
-            name: "PendriveTransferCore",
-            targets: ["PendriveTransferCore"]
+            name: "UniBridgeCore",
+            targets: ["UniBridgeCore"]
         ),
         .executable(
-            name: "PendriveTransfer",
-            targets: ["PendriveTransfer"]
+            name: "UniBridge",
+            targets: ["UniBridge"]
         )
     ],
     targets: [
@@ -40,7 +40,7 @@ let package = Package(
             ]
         ),
         .target(
-            name: "PendriveTransferCore",
+            name: "UniBridgeCore",
             dependencies: ["CDeviceBridge"],
             linkerSettings: [
                 .linkedFramework("AppKit"),
@@ -50,8 +50,8 @@ let package = Package(
             ]
         ),
         .executableTarget(
-            name: "PendriveTransfer",
-            dependencies: ["PendriveTransferCore"],
+            name: "UniBridge",
+            dependencies: ["UniBridgeCore"],
             linkerSettings: [
                 .linkedFramework("AppKit"),
                 .linkedFramework("SwiftUI"),
@@ -63,8 +63,8 @@ let package = Package(
             ]
         ),
         .testTarget(
-            name: "PendriveTransferTests",
-            dependencies: ["PendriveTransferCore"],
+            name: "UniBridgeTests",
+            dependencies: ["UniBridgeCore"],
             linkerSettings: [
                 .unsafeFlags([
                     "-Xlinker", "-rpath", "-Xlinker", "/opt/homebrew/lib"

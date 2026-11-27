@@ -1,4 +1,4 @@
-import PendriveTransferCore
+import UniBridgeCore
 import SwiftUI
 
 struct ContentView: View {
@@ -75,7 +75,7 @@ struct ContentView: View {
                     .font(.title2)
                     .foregroundStyle(Color.accentColor)
                 VStack(alignment: .leading, spacing: 0) {
-                    Text("Pendrive Transfer")
+                    Text("UniBridge")
                         .font(.headline)
                     Text("Mac • USB/OTG • Android • iOS")
                         .font(.caption2)

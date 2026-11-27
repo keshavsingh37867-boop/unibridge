@@ -151,7 +151,7 @@ int pt_ios_list_devices(PTIOSDeviceInfo **out_devices, int *out_count) {
         enum idevice_options opts = is_usb ? IDEVICE_LOOKUP_USBMUX : IDEVICE_LOOKUP_NETWORK;
         if (idevice_new_with_options(&dev, udid, opts) == IDEVICE_E_SUCCESS && dev) {
             lockdownd_client_t lockdown = NULL;
-            lockdownd_error_t lerr = lockdownd_client_new_with_handshake(dev, &lockdown, "PendriveTransfer");
+            lockdownd_error_t lerr = lockdownd_client_new_with_handshake(dev, &lockdown, "UniBridge");
             if (lerr == LOCKDOWN_E_SUCCESS && lockdown) {
                 results[out_idx].is_paired = true;
 
@@ -192,7 +192,7 @@ int pt_ios_list_devices(PTIOSDeviceInfo **out_devices, int *out_count) {
 
                 // Best-effort unencrypted query for device name/class when unpaired.
                 lockdownd_client_t plain_client = NULL;
-                if (lockdownd_client_new(dev, &plain_client, "PendriveTransfer") == LOCKDOWN_E_SUCCESS && plain_client) {
+                if (lockdownd_client_new(dev, &plain_client, "UniBridge") == LOCKDOWN_E_SUCCESS && plain_client) {
                     plist_t name_node = NULL;
                     if (lockdownd_get_value(plain_client, NULL, "DeviceName", &name_node) == LOCKDOWN_E_SUCCESS && name_node) {
                         results[out_idx].device_name = plist_read_string(name_node);
@@ -247,7 +247,7 @@ int pt_ios_list_file_sharing_apps(const char *udid, PTIOSAppInfo **out_apps, int
     }
 
     instproxy_client_t inst = NULL;
-    if (instproxy_client_start_service(dev, &inst, "PendriveTransfer") != INSTPROXY_E_SUCCESS || !inst) {
+    if (instproxy_client_start_service(dev, &inst, "UniBridge") != INSTPROXY_E_SUCCESS || !inst) {
         idevice_free(dev);
         ios_set_error(out_error, "Could not query installed iOS apps.");
         return -1;
@@ -345,7 +345,7 @@ static int ios_open_afc_session(
     }
 
     if (app_bundle_id && strlen(app_bundle_id) > 0) {
-        if (house_arrest_client_start_service(out_session->dev, &out_session->house_arrest, "PendriveTransfer") != HOUSE_ARREST_E_SUCCESS || !out_session->house_arrest) {
+        if (house_arrest_client_start_service(out_session->dev, &out_session->house_arrest, "UniBridge") != HOUSE_ARREST_E_SUCCESS || !out_session->house_arrest) {
             idevice_free(out_session->dev);
             out_session->dev = NULL;
             ios_set_error(out_error, "Could not start iOS App File Sharing (House Arrest) service. Ensure device is trusted.");
@@ -394,7 +394,7 @@ static int ios_open_afc_session(
             return -1;
         }
     } else {
-        if (afc_client_start_service(out_session->dev, &out_session->afc, "PendriveTransfer") != AFC_E_SUCCESS || !out_session->afc) {
+        if (afc_client_start_service(out_session->dev, &out_session->afc, "UniBridge") != AFC_E_SUCCESS || !out_session->afc) {
             idevice_free(out_session->dev);
             out_session->dev = NULL;
             ios_set_error(out_error, "Could not open iOS Media (AFC) service. Unlock iPhone/iPad and tap 'Trust This Computer'.");

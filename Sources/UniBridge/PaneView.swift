@@ -1,5 +1,5 @@
 import AppKit
-import PendriveTransferCore
+import UniBridgeCore
 import SwiftUI
 import UniformTypeIdentifiers
 

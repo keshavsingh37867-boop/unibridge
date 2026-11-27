@@ -2,7 +2,7 @@
 set -euo pipefail
 
 PROJECT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-APP_NAME="PendriveTransfer"
+APP_NAME="UniBridge"
 BUNDLE_DIR="$PROJECT_DIR/build/${APP_NAME}.app"
 CONTENTS_DIR="$BUNDLE_DIR/Contents"
 MACOS_DIR="$CONTENTS_DIR/MacOS"
@@ -218,17 +218,17 @@ cat > "$CONTENTS_DIR/Info.plist" <<'PLIST'
     <key>CFBundleDevelopmentRegion</key>
     <string>en</string>
     <key>CFBundleExecutable</key>
-    <string>PendriveTransfer</string>
+    <string>UniBridge</string>
     <key>CFBundleIconFile</key>
     <string>AppIcon</string>
     <key>CFBundleIdentifier</key>
-    <string>com.keshav.PendriveTransfer</string>
+    <string>com.keshav.UniBridge</string>
     <key>CFBundleInfoDictionaryVersion</key>
     <string>6.0</string>
     <key>CFBundleName</key>
-    <string>Pendrive Transfer</string>
+    <string>UniBridge</string>
     <key>CFBundleDisplayName</key>
-    <string>Pendrive Transfer</string>
+    <string>UniBridge</string>
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleShortVersionString</key>
@@ -246,13 +246,13 @@ cat > "$CONTENTS_DIR/Info.plist" <<'PLIST'
     <key>NSSupportsAutomaticGraphicsSwitching</key>
     <true/>
     <key>NSRemovableVolumesUsageDescription</key>
-    <string>Pendrive Transfer needs access to removable USB and OTG drives to browse and transfer your files.</string>
+    <string>UniBridge needs access to removable USB and OTG drives to browse and transfer your files.</string>
     <key>NSDesktopFolderUsageDescription</key>
-    <string>Pendrive Transfer needs access to your Desktop folder when you browse or transfer Desktop files.</string>
+    <string>UniBridge needs access to your Desktop folder when you browse or transfer Desktop files.</string>
     <key>NSDownloadsFolderUsageDescription</key>
-    <string>Pendrive Transfer needs access to your Downloads folder when you browse or transfer Downloads files.</string>
+    <string>UniBridge needs access to your Downloads folder when you browse or transfer Downloads files.</string>
     <key>NSDocumentsFolderUsageDescription</key>
-    <string>Pendrive Transfer needs access to your Documents folder when you browse or transfer Documents files.</string>
+    <string>UniBridge needs access to your Documents folder when you browse or transfer Documents files.</string>
 </dict>
 </plist>
 PLIST

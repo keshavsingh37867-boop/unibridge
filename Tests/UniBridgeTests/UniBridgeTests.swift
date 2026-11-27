@@ -1,13 +1,13 @@
 import CryptoKit
 import Foundation
-import PendriveTransferCore
+import UniBridgeCore
 import Testing
 
-@Suite("PendriveTransferCore Tests")
-struct PendriveTransferTests {
+@Suite("UniBridgeCore Tests")
+struct UniBridgeTests {
     private func makeTempDirectory() throws -> URL {
         let dir = FileManager.default.temporaryDirectory
-            .appendingPathComponent("PendriveTransferTests-\(UUID().uuidString)", isDirectory: true)
+            .appendingPathComponent("UniBridgeTests-\(UUID().uuidString)", isDirectory: true)
         try FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
         return dir
     }

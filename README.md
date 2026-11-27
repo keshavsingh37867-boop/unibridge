@@ -1,6 +1,6 @@
-# Pendrive Transfer (macOS)
+# UniBridge (macOS)
 
-A native macOS SwiftUI dual-pane file bridge for transferring files between **macOS**, **USB / OTG Pendrives**, **Android (MTP & ADB)**, and **iOS (iPhone & iPad)** over USB.
+A native macOS SwiftUI dual-pane universal file bridge for transferring files between **macOS**, **USB / OTG Pendrives**, **Android (MTP & ADB)**, and **iOS (iPhone & iPad)** over USB.
 
 ## Features
 
@@ -19,7 +19,7 @@ A native macOS SwiftUI dual-pane file bridge for transferring files between **ma
 
 ## Download Prebuilt App
 
-Download `PendriveTransfer.app.zip` from the **Releases** page, unzip it, move `PendriveTransfer.app` into `/Applications`, and launch it from Applications, Spotlight, or your Dock.
+Download `UniBridge.app.zip` from the **Releases** page, unzip it, move `UniBridge.app` into `/Applications`, and launch it from Applications, Spotlight, or your Dock.
 
 ## Build from Source (macOS 14+, Apple Silicon / Homebrew)
 
@@ -38,10 +38,10 @@ swift test --disable-index-store
 ```bash
 ./scripts/build_app.sh
 ```
-Compiles the release binary, bundles `libmtp`, `libimobiledevice`, `libusb`, `libplist`, `openssl`, and `adb` inside `build/PendriveTransfer.app`, generates `AppIcon.icns`, writes `Info.plist`, and ad-hoc signs the entire bundle.
+Compiles the release binary, bundles `libmtp`, `libimobiledevice`, `libusb`, `libplist`, `openssl`, and `adb` inside `build/UniBridge.app`, generates `AppIcon.icns`, writes `Info.plist`, and ad-hoc signs the entire bundle.
 
 ### Install to `/Applications` & Pin to Dock
 ```bash
 ./scripts/install_to_dock.sh
 ```
-Installs `PendriveTransfer.app` into `/Applications/PendriveTransfer.app`, registers it with LaunchServices, and pins it to your macOS Dock.
+Installs `UniBridge.app` into `/Applications/UniBridge.app`, registers it with LaunchServices, and pins it to your macOS Dock.

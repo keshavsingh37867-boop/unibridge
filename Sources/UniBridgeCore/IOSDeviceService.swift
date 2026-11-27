@@ -41,7 +41,7 @@ private func iosCProgressCallback(transferred: UInt64, total: UInt64, context: U
 
 /// Manages iPhone & iPad USB connections via `libimobiledevice` (AFC Media & App File Sharing).
 public final class IOSDeviceService: @unchecked Sendable {
-    private let queue = DispatchQueue(label: "com.keshav.PendriveTransfer.ios", qos: .userInitiated)
+    private let queue = DispatchQueue(label: "com.keshav.UniBridge.ios", qos: .userInitiated)
     private var eventSubscription: UnsafeMutableRawPointer?
     private let eventCallbackLock = NSLock()
     private var onDeviceChangeHandler: (@Sendable () -> Void)?

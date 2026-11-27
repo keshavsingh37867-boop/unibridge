@@ -267,7 +267,7 @@ public final class TransferEngine: Sendable {
             }
 
             // Stream copy into a staging temp file, then move into final path only on 100% completion.
-            let tempURL = parentDir.appendingPathComponent(".pendrivetransfer.\(UUID().uuidString).part")
+            let tempURL = parentDir.appendingPathComponent(".unibridge.\(UUID().uuidString).part")
             let currentName = fileEntry.source.lastPathComponent
             do {
                 try await copyFileChunked(

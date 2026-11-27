@@ -1,7 +1,7 @@
 import AppKit
 import Combine
 import Foundation
-import PendriveTransferCore
+import UniBridgeCore
 
 public enum PaneSide: Sendable {
     case left

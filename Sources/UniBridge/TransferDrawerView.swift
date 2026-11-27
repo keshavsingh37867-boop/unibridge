@@ -1,4 +1,4 @@
-import PendriveTransferCore
+import UniBridgeCore
 import SwiftUI
 
 struct TransferDrawerView: View {
