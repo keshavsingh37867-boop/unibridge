@@ -6,3 +6,10 @@ DerivedData/
 *.xcodeproj
 *.xcworkspace
 *.xcuserstate
+windows/**/bin/
+windows/**/obj/
+windows/UniBridge.App/Helpers/
+windows/UniBridge.App/Assets/
+publish/
+*.zip
+.vs/

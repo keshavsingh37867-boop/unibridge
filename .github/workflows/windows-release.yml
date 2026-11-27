@@ -1,0 +1,94 @@
+name: Build Windows Release
+
+on:
+  push:
+    branches: [ main ]
+    tags: [ 'v*' ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Setup Python for icon generation
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Generate UniBridge.ico
+        shell: pwsh
+        run: |
+          python -m pip install --quiet pillow
+          python windows/scripts/generate_icon.py
+
+      - name: Bundle Windows Android platform-tools (adb.exe)
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path "windows/UniBridge.App/Helpers" | Out-Null
+          $zipPath = "$env:TEMP\platform-tools.zip"
+          $extractDir = "$env:TEMP\platform-tools-extract"
+          Invoke-WebRequest -Uri "https://dl.google.com/android/repository/platform-tools-latest-windows.zip" -OutFile $zipPath
+          Expand-Archive -Path $zipPath -DestinationPath $extractDir -Force
+          Copy-Item "$extractDir\platform-tools\adb.exe" "windows/UniBridge.App/Helpers/" -Force
+          Copy-Item "$extractDir\platform-tools\AdbWinApi.dll" "windows/UniBridge.App/Helpers/" -Force
+          Copy-Item "$extractDir\platform-tools\AdbWinUsbApi.dll" "windows/UniBridge.App/Helpers/" -Force
+
+      - name: Restore Windows solution
+        run: dotnet restore windows/UniBridge.sln
+
+      - name: Run UniBridge.Tests
+        run: dotnet test windows/UniBridge.Tests/UniBridge.Tests.csproj --configuration Release --no-restore --verbosity normal
+
+      - name: Publish self-contained UniBridge.exe (win-x64)
+        run: >
+          dotnet publish windows/UniBridge.App/UniBridge.App.csproj
+          --configuration Release
+          --runtime win-x64
+          --self-contained true
+          -p:PublishSingleFile=false
+          --output publish/UniBridge
+
+      - name: Create UniBridge-Windows-x64.zip
+        shell: pwsh
+        run: |
+          Compress-Archive -Path "publish/UniBridge/*" -DestinationPath "UniBridge-Windows-x64.zip" -Force
+
+      - name: Upload workflow build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: UniBridge-Windows-x64
+          path: UniBridge-Windows-x64.zip
+
+      - name: Attach UniBridge-Windows-x64.zip to GitHub Release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          if [[ "${GITHUB_REF}" == refs/tags/v* ]]; then
+            TAG="${GITHUB_REF_NAME}"
+            if gh release view "${TAG}" >/dev/null 2>&1; then
+              gh release upload "${TAG}" "UniBridge-Windows-x64.zip" --clobber
+            else
+              gh release create "${TAG}" "UniBridge-Windows-x64.zip" --title "UniBridge ${TAG}" --generate-notes
+            fi
+          else
+            LATEST_TAG="$(gh release list --limit 1 --json tagName -q '.[0].tagName')"
+            if [[ -z "${LATEST_TAG}" ]]; then
+              gh release create "v2.1.0" "UniBridge-Windows-x64.zip" --title "UniBridge v2.1.0" --generate-notes
+            else
+              gh release upload "${LATEST_TAG}" "UniBridge-Windows-x64.zip" --clobber
+            fi
+          fi

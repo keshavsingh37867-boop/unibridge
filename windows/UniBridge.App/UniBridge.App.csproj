@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <PlatformTarget>x64</PlatformTarget>
+    <AssemblyName>UniBridge</AssemblyName>
+    <RootNamespace>UniBridge.App</RootNamespace>
+    <Version>2.1.0</Version>
+    <Product>UniBridge</Product>
+    <Description>Universal Cross-Device File Transfer for Windows, USB Pendrives, Android, and iOS</Description>
+    <ApplicationIcon Condition="Exists('Assets\UniBridge.ico')">Assets\UniBridge.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\UniBridge.Core\UniBridge.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Condition="Exists('Helpers')">
+    <Content Include="Helpers\**\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>
